@@ -12,7 +12,7 @@ class IBapi(EWrapper,EClient):
     def tickPrice(self, reqId, tickType, price, attrib):
         super().tickPrice(reqId, tickType, price, attrib)
         if tickType == 4 and reqId == 1:
-            print("Real-time price of ES:", price)
+            print("Real-time price of AAPL:", price)
 
     def error(self, id, errorCode, errorMdg):
         print(errorCode)
@@ -27,16 +27,14 @@ class Bot():
         ib_thread.start()
         time.sleep(1)
 
-        Future_Price_ContractObj = Contract()
-        Future_Price_ContractObj.symbol = "MES"
-        Future_Price_ContractObj.secType = "FUT"
-        Future_Price_ContractObj.exchange = "CME"
-        Future_Price_ContractObj.currency = "USD"
-        Future_Price_ContractObj.lastTradeDateOrContractMonth = "202303"
-        self.ib.reqMktData(1, Future_Price_ContractObj, "", False, False, [])
+        contract = Contract()
+        contract.symbol = "AAPL"
+        contract.secType = "STK"
+        contract.exchange = "SMART"
+        contract.currency = "USD"
+        self.ib.reqMktData(1, contract, "", False, False, [])
 
     def ran_loop(self):
         self.ib.run()
 
 bot = Bot()
-
